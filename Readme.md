@@ -24,7 +24,7 @@ func ExampleBackoff() {
 			time.Sleep(nextDelay)
 		} else {
 			log.Print("Reset backoff")
-            boff.Reset()
+			boff.Reset()
 		}
 	}
 }
