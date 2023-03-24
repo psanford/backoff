@@ -1,6 +1,7 @@
 package backoff
 
 import (
+	"math/rand"
 	"testing"
 	"time"
 )
@@ -35,7 +36,8 @@ func TestBackoffNoJitter(t *testing.T) {
 }
 
 func TestBackoffWithJitter(t *testing.T) {
-	boff := New(1*time.Second, 10*time.Second, WithNoJitter())
+	rand.Seed(time.Now().UnixMicro())
+	boff := New(1*time.Second, 10*time.Second)
 
 	expect := []struct {
 		min time.Duration
@@ -43,19 +45,19 @@ func TestBackoffWithJitter(t *testing.T) {
 	}{
 		{
 			500 * time.Millisecond,
-			1500 * time.Millisecond,
+			1000 * time.Millisecond,
 		},
 		{
 			1000 * time.Millisecond,
-			3000 * time.Millisecond,
+			2000 * time.Millisecond,
 		},
 		{
 			2000 * time.Millisecond,
-			6000 * time.Millisecond,
+			4000 * time.Millisecond,
 		},
 		{
 			4000 * time.Millisecond,
-			10000 * time.Millisecond,
+			8000 * time.Millisecond,
 		},
 		{
 			5000 * time.Millisecond,
